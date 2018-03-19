@@ -9,16 +9,16 @@ defmodule OneSignal.Mixfile do
      elixir: "~> 1.2",
      build_embedded: Mix.env == :prod,
      start_permanent: Mix.env == :prod,
-     deps: deps,
+     deps: deps(),
      description: @description,
-     package: package]
+     package: package()]
   end
 
   # Configuration for the OTP application
   #
   # Type "mix help compile.app" for more information
   def application do
-    [applications: [:logger],
+    [applications: [:logger, :syringe],
      mod: {OneSignal, []}]
   end
 
@@ -33,6 +33,7 @@ defmodule OneSignal.Mixfile do
     [
       {:poison, "~> 1.5"},
       {:httpoison, "~> 0.8.0"},
+      {:syringe, "~> 1.1.1"},
       {:ex_doc, "~> 0.8.0", only: :docs}
     ]
   end

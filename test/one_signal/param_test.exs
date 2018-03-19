@@ -1,6 +1,14 @@
 defmodule OneSignal.ParamTest do
   use ExUnit.Case
   import OneSignal.Param
+  import Mocker
+
+  alias HTTPoison.Response
+
+  setup do
+    System.put_env("ONE_SIGNAL_API_KEY", "alksd49peoi8apgbknm34klr53")
+    :ok
+  end
 
   test "put message" do
     param = OneSignal.new
@@ -82,6 +90,8 @@ defmodule OneSignal.ParamTest do
   end
 
   test "push notification" do
+    mock(HTTPoison)
+    intercept(HTTPoison, :post!, [any(), any(), any()], with: fn(_, _, _) -> %Response{body: ~s({}), status_code: 200} end)
     notified = OneSignal.new
               |> put_heading("Welcome!")
               |> put_message(:en, "Hello")
