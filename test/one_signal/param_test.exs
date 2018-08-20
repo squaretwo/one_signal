@@ -6,7 +6,10 @@ defmodule OneSignal.ParamTest do
   alias HTTPoison.Response
 
   setup do
-    System.put_env("ONE_SIGNAL_API_KEY", "alksd49peoi8apgbknm34klr53")
+    Application.put_env(:one_signal,
+                        OneSignal,
+                        app_id: "some app id",
+                        api_key: "alksd49peoi8apgbknm34klr53")
     :ok
   end
 

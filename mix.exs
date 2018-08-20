@@ -6,7 +6,7 @@ defmodule OneSignal.Mixfile do
   def project do
     [app: :one_signal,
      version: "0.0.6",
-     elixir: "~> 1.2",
+     elixir: "~> 1.4",
      build_embedded: Mix.env == :prod,
      start_permanent: Mix.env == :prod,
      deps: deps(),
@@ -18,8 +18,7 @@ defmodule OneSignal.Mixfile do
   #
   # Type "mix help compile.app" for more information
   def application do
-    [applications: [:logger, :syringe],
-     mod: {OneSignal, []}]
+    [extra_applications: [:logger]]
   end
 
   defp package do
