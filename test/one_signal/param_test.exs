@@ -5,16 +5,8 @@ defmodule OneSignal.ParamTest do
 
   alias HTTPoison.Response
 
-  setup do
-    Application.put_env(
-      :one_signal,
-      OneSignal,
-      app_id: "some app id",
-      api_key: "alksd49peoi8apgbknm34klr53"
-    )
-
-    :ok
-  end
+  @app_id "some app id"
+  @api_key "alksd49peoi8apgbknm34klr53"
 
   test "put message" do
     param =
@@ -104,10 +96,11 @@ defmodule OneSignal.ParamTest do
       |> put_message(:ja, "はろー")
       |> exclude_segment("Free Players")
       |> exclude_segment("New Players")
+      |> put_app_id(@app_id)
       |> build
 
     assert param["contents"]
-    assert param["app_id"]
+    assert param["app_id"] == @app_id
     assert param["headings"]
     assert param["excluded_segments"]
   end
@@ -126,6 +119,8 @@ defmodule OneSignal.ParamTest do
       |> put_message(:ja, "はろー")
       |> put_segment("Free Players")
       |> put_segment("New Players")
+      |> put_app_id(@app_id)
+      |> put_api_key(@api_key)
       |> notify
 
     assert %OneSignal.Notification{} = notified

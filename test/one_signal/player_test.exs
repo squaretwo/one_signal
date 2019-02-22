@@ -6,8 +6,9 @@ defmodule OneSignal.PlayerTest do
   alias HTTPoison.Response
   alias OneSignal.Player
 
+  @api_key "alksd49peoi8apgbknm34klr53"
+
   setup do
-    System.put_env("ONE_SIGNAL_API_KEY", "alksd49peoi8apgbknm34klr53")
     mock(HTTPoison)
     :ok
   end
@@ -31,7 +32,7 @@ defmodule OneSignal.PlayerTest do
           end
         )
 
-      {:ok, data} = Player.csv_export()
+      {:ok, data} = Player.csv_export(api_key: @api_key)
       assert data == %{"foo" => "bar"}
       assert expectation |> was_called() == once()
     end
@@ -54,7 +55,7 @@ defmodule OneSignal.PlayerTest do
           end
         )
 
-      {:error, data} = Player.csv_export()
+      {:error, data} = Player.csv_export(api_key: @api_key)
       assert data == %{"bad" => "server error"}
       assert expectation |> was_called() == once()
     end
@@ -78,7 +79,7 @@ defmodule OneSignal.PlayerTest do
           end
         )
 
-      {:ok, data} = Player.all()
+      {:ok, data} = Player.all(api_key: @api_key)
       assert data == %{"foo" => "bar"}
       assert expectation |> was_called() == once()
     end
@@ -100,7 +101,7 @@ defmodule OneSignal.PlayerTest do
           end
         )
 
-      {:error, data} = Player.all()
+      {:error, data} = Player.all(api_key: @api_key)
       assert data == %{"bad" => "server error"}
       assert expectation |> was_called() == once()
     end
@@ -124,7 +125,7 @@ defmodule OneSignal.PlayerTest do
           end
         )
 
-      {:ok, data} = Player.get("abc123")
+      {:ok, data} = Player.get("abc123", api_key: @api_key)
       assert data == %{"foo" => "bar"}
       assert expectation |> was_called() == once()
     end
@@ -146,7 +147,7 @@ defmodule OneSignal.PlayerTest do
           end
         )
 
-      {:error, data} = Player.get("abc123")
+      {:error, data} = Player.get("abc123", api_key: @api_key)
       assert data == %{"bad" => "server error"}
       assert expectation |> was_called() == once()
     end
@@ -171,7 +172,7 @@ defmodule OneSignal.PlayerTest do
           end
         )
 
-      {:ok, data} = Player.create(%{first_name: "foo", last_name: "bar"})
+      {:ok, data} = Player.create(%{first_name: "foo", last_name: "bar"}, api_key: @api_key)
       assert data == %{"first_name" => "foo", "last_name" => "bar"}
       assert expectation |> was_called() == once()
     end
@@ -194,7 +195,7 @@ defmodule OneSignal.PlayerTest do
           end
         )
 
-      {:error, data} = Player.create(%{first_name: "foo", last_name: "bar"})
+      {:error, data} = Player.create(%{first_name: "foo", last_name: "bar"}, api_key: @api_key)
       assert data == %{"first_name" => "foo", "last_name" => "bar"}
       assert expectation |> was_called() == once()
     end
@@ -219,7 +220,7 @@ defmodule OneSignal.PlayerTest do
           end
         )
 
-      {:ok, data} = Player.create_session("abc123", %{foo: "bar"})
+      {:ok, data} = Player.create_session("abc123", %{foo: "bar"}, api_key: @api_key)
       assert data == %{"foo" => "bar"}
       assert expectation |> was_called() == once()
     end
@@ -242,7 +243,7 @@ defmodule OneSignal.PlayerTest do
           end
         )
 
-      {:error, data} = Player.create_session("abc123", %{foo: "bar"})
+      {:error, data} = Player.create_session("abc123", %{foo: "bar"}, api_key: @api_key)
       assert data == %{"bad" => "server error"}
       assert expectation |> was_called() == once()
     end
@@ -267,7 +268,7 @@ defmodule OneSignal.PlayerTest do
           end
         )
 
-      {:ok, data} = Player.create_purchase("abc123", %{foo: "bar"})
+      {:ok, data} = Player.create_purchase("abc123", %{foo: "bar"}, api_key: @api_key)
       assert data == %{"foo" => "bar"}
       assert expectation |> was_called() == once()
     end
@@ -290,7 +291,7 @@ defmodule OneSignal.PlayerTest do
           end
         )
 
-      {:error, data} = Player.create_purchase("abc123", %{foo: "bar"})
+      {:error, data} = Player.create_purchase("abc123", %{foo: "bar"}, api_key: @api_key)
       assert data == %{"bad" => "server error"}
       assert expectation |> was_called() == once()
     end
@@ -315,7 +316,7 @@ defmodule OneSignal.PlayerTest do
           end
         )
 
-      {:ok, data} = Player.create_focus("abc123", %{foo: "bar"})
+      {:ok, data} = Player.create_focus("abc123", %{foo: "bar"}, api_key: @api_key)
       assert data == %{"foo" => "bar"}
       assert expectation |> was_called() == once()
     end
@@ -338,7 +339,7 @@ defmodule OneSignal.PlayerTest do
           end
         )
 
-      {:error, data} = Player.create_focus("abc123", %{foo: "bar"})
+      {:error, data} = Player.create_focus("abc123", %{foo: "bar"}, api_key: @api_key)
       assert data == %{"bad" => "server error"}
       assert expectation |> was_called() == once()
     end
@@ -363,7 +364,7 @@ defmodule OneSignal.PlayerTest do
           end
         )
 
-      {:ok, data} = Player.update("abc123", %{foo: "bar"})
+      {:ok, data} = Player.update("abc123", %{foo: "bar"}, api_key: @api_key)
       assert data == %{"foo" => "bar"}
       assert expectation |> was_called() == once()
     end
@@ -386,7 +387,7 @@ defmodule OneSignal.PlayerTest do
           end
         )
 
-      {:error, data} = Player.update("abc123", %{foo: "bar"})
+      {:error, data} = Player.update("abc123", %{foo: "bar"}, api_key: @api_key)
       assert data == %{"bad" => "server error"}
       assert expectation |> was_called() == once()
     end

@@ -17,7 +17,8 @@ defmodule OneSignal.Param do
             chrome_params: nil,
             firefox_params: nil,
             send_after: nil,
-            api_key: nil
+            api_key: nil,
+            app_id: nil
 
   defp to_string_key({k, v}) do
     {to_string(k), v}
@@ -48,7 +49,6 @@ defmodule OneSignal.Param do
   """
   def build(%Param{} = param) do
     required = %{
-      "app_id" => OneSignal.fetch_app_id(),
       "contents" => Enum.map(param.messages, &to_string_key/1) |> Enum.into(%{})
     }
 
@@ -60,7 +60,8 @@ defmodule OneSignal.Param do
       :adm_params,
       :wp_params,
       :chrome_params,
-      :firefox_params
+      :firefox_params,
+      :api_key
     ]
 
     optionals =
@@ -222,9 +223,16 @@ defmodule OneSignal.Param do
   end
 
   @doc """
-  Put the api key used to authenticate the request. Is defaulted to the mix config setting.
+  Put the api key used to authenticate the request.
   """
   def put_api_key(%Param{} = param, api_key) do
     %{param | api_key: api_key}
+  end
+
+  @doc """
+  Put the app id used to authenticate the request.
+  """
+  def put_app_id(%Param{} = param, app_id) do
+    %{param | app_id: app_id}
   end
 end

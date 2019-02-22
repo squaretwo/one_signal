@@ -22,11 +22,10 @@ defmodule OneSignal.Notification do
     end
   end
 
-  def send(contents, %{} = more_body, opts) do
-    param = %{"contents" => contents, "app_id" => OneSignal.fetch_app_id()}
+  def send(contents, %{} = more_body, [api_key: api_key, app_id: app_id]) do
+    param = %{"contents" => contents, "app_id" => app_id}
     body = Map.merge(param, more_body)
     url = post_notification_url()
-    api_key = Keyword.get(opts, :api_key, OneSignal.fetch_api_key())
 
     case OneSignal.API.post(url, body, api_key: api_key) do
       {:ok, response} ->
