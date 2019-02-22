@@ -4,14 +4,16 @@ defmodule OneSignal.Mixfile do
   @description "Elixir wrapper of OneSignal"
 
   def project do
-    [app: :one_signal,
-     version: "0.0.6",
-     elixir: "~> 1.4",
-     build_embedded: Mix.env == :prod,
-     start_permanent: Mix.env == :prod,
-     deps: deps(),
-     description: @description,
-     package: package()]
+    [
+      app: :one_signal,
+      version: "0.0.6",
+      elixir: "~> 1.4",
+      build_embedded: Mix.env() == :prod,
+      start_permanent: Mix.env() == :prod,
+      deps: deps(),
+      description: @description,
+      package: package()
+    ]
   end
 
   # Configuration for the OTP application
@@ -22,9 +24,10 @@ defmodule OneSignal.Mixfile do
   end
 
   defp package do
-    [maintainers: ["Takuma Yoshida"],
+    [
+      maintainers: ["Takuma Yoshida"],
       licenses: ["MIT"],
-      links: %{"GitHub" => "https://github.com/yoavlt/one_signal"},
+      links: %{"GitHub" => "https://github.com/yoavlt/one_signal"}
     ]
   end
 

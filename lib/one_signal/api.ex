@@ -3,45 +3,49 @@ defmodule OneSignal.API do
 
   alias HTTPoison.Response
 
-  inject HTTPoison
+  inject(HTTPoison)
 
-  @spec get(String.t, List.t) :: {:ok, map()} | {:error, map()}
-  def get(url, query \\ []) do
-    HTTPoison.start
+  @spec get(String.t(), api_key: String.t()) :: {:ok, map()} | {:error, map()}
+  @spec get(String.t(), List.t(), api_key: String.t()) :: {:ok, map()} | {:error, map()}
+  def get(url, query \\ [], api_key: api_key) do
+    HTTPoison.start()
     query = OneSignal.Utils.encode_body(query)
 
-    unless String.length(query) == 0 do
-      url = "#{url}?#{query}"
+    url = if String.length(query) == 0 do
+      url
+    else
+      "#{url}?#{query}"
     end
 
-    HTTPoison.get!(url, OneSignal.auth_header)
+    HTTPoison.get!(url, headers(api_key))
     |> handle_response
   end
 
-  @spec post(String.t, map()) :: {:ok, map()} | {:error, map()}
-  def post(url, body) do
-    HTTPoison.start
+  @spec post(String.t(), map(), api_key: String.t()) :: {:ok, map()} | {:error, map()}
+  def post(url, body, api_key: api_key) do
+    HTTPoison.start()
 
     req_body = Poison.encode!(body)
 
-    HTTPoison.post!(url, req_body, OneSignal.auth_header)
+    HTTPoison.post!(url, req_body, headers(api_key))
     |> handle_response
   end
 
-  @spec put(String.t, map()) :: {:ok, map()} | {:error, map()}
-  def put(url, body) do
-    HTTPoison.start
+  @spec put(String.t(), map(), api_key: String.t()) :: {:ok, map()} | {:error, map()}
+  def put(url, body, api_key: api_key) do
+    HTTPoison.start()
 
     req_body = Poison.encode!(body)
 
-    HTTPoison.put!(url, req_body, OneSignal.auth_header)
+    HTTPoison.put!(url, req_body, headers(api_key))
     |> handle_response
   end
 
-  @spec delete(String.t) :: {:ok, map()} | {:error, map()}
-  def delete(url) do
-    HTTPoison.start
-    HTTPoison.delete!(url, OneSignal.auth_header)
+  @spec delete(String.t(), api_key: String.t()) :: {:ok, map()} | {:error, map()}
+  def delete(url, api_key: api_key) do
+    HTTPoison.start()
+
+    HTTPoison.delete!(url, headers(api_key))
     |> handle_response
   end
 
@@ -53,4 +57,7 @@ defmodule OneSignal.API do
     {:error, Poison.decode!(body)}
   end
 
+  defp headers(api_key) do
+    %{"Authorization" => "Basic " <> api_key, "Content-type" => "application/json"}
+  end
 end

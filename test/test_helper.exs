@@ -1,2 +1,2 @@
-Mocker.start_link
+Mocker.start_link()
 ExUnit.start()

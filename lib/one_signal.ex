@@ -3,18 +3,14 @@ defmodule OneSignal do
 
   def new do
     %OneSignal.Param{}
-  end
-
-  def auth_header do
-    %{"Authorization" => "Basic " <> fetch_api_key(),
-      "Content-type" => "application/json"}
+    |> struct(api_key: fetch_api_key())
   end
 
   defp config do
     Application.get_env(:one_signal, OneSignal)
   end
 
-  defp fetch_api_key do
+  def fetch_api_key do
     config()[:api_key] ||
       System.get_env("ONE_SIGNAL_API_KEY")
   end
